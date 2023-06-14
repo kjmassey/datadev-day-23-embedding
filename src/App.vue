@@ -9,98 +9,107 @@
       ></v-app-bar
     >
     <v-main>
-      <div class="px-6 pt-2 d-flex justify-center">
-        <v-tabs color="#000080" v-model="selectedViz">
-          <v-tab value="scatter"
-            >Scatter - Profit vs. Discount by Customer</v-tab
-          >
-          <v-tab value="line">Line - Monthly Profit by Region</v-tab>
-          <v-tab value="map">Map - Multiple Measures w/ Parameter</v-tab>
-        </v-tabs>
-      </div>
-      <div class="d-flex justify-center align-start w-100 py-4 px-6">
-        <div class="d-flex w-60" style="height: 725px">
-          <div>
-            <tableau-viz
-              :src="activeSrcUrl"
-              device="desktop"
-              hide-tabs
-              toolbar="hidden"
-            >
-            </tableau-viz>
-          </div>
-          <div
-            class="h-100 d-flex justify-center align-center"
-            v-if="activeSheetName != 'Scatter'"
-          >
-            <div
-              v-if="activeSheetName == 'Map'"
-              class="d-flex flex-column pl-4"
-            >
-              <span>Update a Parameter:</span>
-              <v-select
-                :items="
-                  formattedParams &&
-                  formattedParams[0] &&
-                  formattedParams[0].allowableVals
-                "
-                item-title="value"
-                item-value="value"
-                variant="outlined"
-                v-model="selectedParamVal"
-                density="compact"
-                @update:menu="
-                  updateParameterValue('Dot Size', selectedParamVal)
-                "
-              >
-              </v-select>
-            </div>
-            <div
-              v-if="formattedFilters && activeSheetName == 'Line'"
-              class="d-flex flex-column justify-center pl-4"
-            >
-              <span>Update Filters:</span>
-              <v-checkbox
-                v-model="selectedFilters"
-                v-for="val in formattedFilters"
-                :key="val"
-                :label="val"
-                :value="val"
-                color="#000080"
-                @change="updateFilters()"
-              ></v-checkbox>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="marksFetched" class="d-flex flex-column px-4">
-        <v-card
-          elevation="2"
-          v-if="formattedSelectedMarks && formattedSelectedMarks.length > 0"
-        >
+      <div class="d-flex pt-4">
+        <v-card class="w-50" elevation="2">
           <v-card-text>
-            <v-data-table
-              :headers="computedHeaders"
-              :items="formattedSelectedMarks"
-              item-value="name"
-              density="compact"
-              items-per-page="-1"
-              hide-no-data=""
-            >
-              <template #bottom> </template>
-              <template #top>
-                <div class="d-flex justify-end align-center py-2">
-                  Export
-                  <json-c-s-v :data="formattedSelectedMarks">
-                    <v-icon
-                      icon="mdi-file-delimited-outline"
-                      size="32"
-                      color="#008000"
-                      style="cursor: pointer"
-                    ></v-icon>
-                  </json-c-s-v></div
-              ></template>
-            </v-data-table>
+            <div class="px-6 pt-2 d-flex justify-center">
+              <v-tabs color="#000080" v-model="selectedViz">
+                <v-tab value="scatter"
+                  >Scatter - Profit vs. Discount by Customer</v-tab
+                >
+                <v-tab value="line">Line - Monthly Profit by Region</v-tab>
+                <v-tab value="map">Map - Multiple Measures w/ Parameter</v-tab>
+              </v-tabs>
+            </div>
+            <div class="d-flex justify-center align-start w-100 py-4 px-6">
+              <div class="d-flex w-60" style="height: 725px">
+                <div>
+                  <tableau-viz
+                    :src="activeSrcUrl"
+                    device="desktop"
+                    hide-tabs
+                    toolbar="hidden"
+                  >
+                  </tableau-viz>
+                </div>
+                <div
+                  class="h-100 d-flex justify-center align-center"
+                  v-if="activeSheetName != 'Scatter'"
+                >
+                  <div
+                    v-if="activeSheetName == 'Map'"
+                    class="d-flex flex-column pl-4"
+                  >
+                    <span>Update a Parameter:</span>
+                    <v-select
+                      :items="
+                        formattedParams &&
+                        formattedParams[0] &&
+                        formattedParams[0].allowableVals
+                      "
+                      item-title="value"
+                      item-value="value"
+                      variant="outlined"
+                      v-model="selectedParamVal"
+                      density="compact"
+                      @update:menu="
+                        updateParameterValue('Dot Size', selectedParamVal)
+                      "
+                    >
+                    </v-select>
+                  </div>
+                  <div
+                    v-if="formattedFilters && activeSheetName == 'Line'"
+                    class="d-flex flex-column justify-center pl-4"
+                  >
+                    <span>Update Filters:</span>
+                    <v-checkbox
+                      v-model="selectedFilters"
+                      v-for="val in formattedFilters"
+                      :key="val"
+                      :label="val"
+                      :value="val"
+                      color="#000080"
+                      @change="updateFilters()"
+                    ></v-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+        <v-card class="w-50" v-if="marksFetched">
+          <v-card-text
+            v-if="formattedSelectedMarks && formattedSelectedMarks.length > 0"
+          >
+            <div v-if="marksFetched" class="d-flex flex-column px-4">
+              <v-card elevation="2">
+                <v-card-text>
+                  <v-data-table
+                    :headers="computedHeaders"
+                    :items="formattedSelectedMarks"
+                    item-value="name"
+                    density="compact"
+                    items-per-page="-1"
+                    hide-no-data=""
+                  >
+                    <template #bottom> </template>
+                    <template #top>
+                      <div class="d-flex justify-end align-center py-2">
+                        Export
+                        <json-c-s-v :data="formattedSelectedMarks">
+                          <v-icon
+                            icon="mdi-file-delimited-outline"
+                            size="32"
+                            color="#008000"
+                            style="cursor: pointer"
+                          ></v-icon>
+                        </json-c-s-v></div
+                    ></template>
+                  </v-data-table>
+                </v-card-text>
+              </v-card>
+            </div>
           </v-card-text>
         </v-card>
       </div>
