@@ -90,12 +90,6 @@
               <template #bottom> </template>
               <template #top>
                 <div class="d-flex justify-end align-center py-2">
-                  <!-- Export:
-                  <v-icon
-                    icon="mdi-microsoft-excel"
-                    size="32"
-                    color="green"
-                  ></v-icon> -->
                   Export
                   <json-c-s-v :data="formattedSelectedMarks">
                     <v-icon
