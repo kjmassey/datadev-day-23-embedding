@@ -143,7 +143,7 @@ export default {
     selectedFilters: ["West", "South", "East", "Central"],
   }),
   components: { VDataTable, JsonCSV },
-  // computed properties allow of to transform things based on data in state
+  // computed properties allow us to transform things based on data in state
   // this is useful for dealing with complex promises/responses and turning them into
   // objects we want to interact with
   computed: {
@@ -290,7 +290,7 @@ export default {
       );
 
       // Stringify and then re-parse the selectedFilters array
-      // This is necessary because of reactivity in Vue, i.e. it forces a value from what is otherwise a reference to a resolve Promise
+      // This is necessary because of reactivity in Vue, i.e. it forces a value from what is otherwise a reference to a resolved Promise
       const filterArr = JSON.parse(JSON.stringify(this.selectedFilters));
 
       await worksheet.applyFilterAsync("Region", filterArr, "replace");
