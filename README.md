@@ -13,7 +13,7 @@
 
 ---
 
-# datadev-day-23-emebdding
+# datadev-day-23-embedding
 
 ## Project setup
 
