@@ -9,7 +9,7 @@
       ></v-app-bar
     >
     <v-main>
-      <div class="px-6 pt-2">
+      <div class="px-6 pt-2 d-flex justify-center">
         <v-tabs color="#000080" v-model="selectedViz">
           <v-tab value="scatter"
             >Scatter - Profit vs. Discount by Customer</v-tab
@@ -18,9 +18,9 @@
           <v-tab value="map">Map - Multiple Measures w/ Parameter</v-tab>
         </v-tabs>
       </div>
-      <div class="d-flex justify-start align-start w-100 py-4 px-6">
-        <div class="d-flex w-100" style="height: 725px">
-          <div :class="[activeSheetName != 'Scatter' ? 'w-75' : 'w-100']">
+      <div class="d-flex justify-center align-start w-100 py-4 px-6">
+        <div class="d-flex w-60" style="height: 725px">
+          <div>
             <tableau-viz
               :src="activeSrcUrl"
               device="desktop"
@@ -30,11 +30,13 @@
             </tableau-viz>
           </div>
           <div
-            class="h-100 w-25 d-flex justify-center align-center"
+            class="h-100 d-flex justify-center align-center"
             v-if="activeSheetName != 'Scatter'"
-            :class="[activeSheetName != 'Scatter' ? 'w-0' : 'w-25']"
           >
-            <div v-if="activeSheetName == 'Map'" class="d-flex flex-column">
+            <div
+              v-if="activeSheetName == 'Map'"
+              class="d-flex flex-column pl-4"
+            >
               <span>Update a Parameter:</span>
               <v-select
                 :items="
@@ -55,7 +57,7 @@
             </div>
             <div
               v-if="formattedFilters && activeSheetName == 'Line'"
-              class="d-flex flex-column"
+              class="d-flex flex-column justify-center pl-4"
             >
               <span>Update Filters:</span>
               <v-checkbox
